@@ -5,8 +5,8 @@
 {{=<< >>=}}
 (ns <<project.name>>.client.routes
   (:require [<<project.name>>.client.navigation :as nav]
-            [<<project.name>>.client.view.landing :as view.landing]
             [<<project.name>>.client.view.not-found :as view.not-found]
+            [<<project.name>>.shared.client-routes :as client-routes]
             [<<project.name>>.shared.util.malli-coercion :as util.malli-coercion]
             [re-frame.core :as rf]
             [reitit.frontend :as reitit.fr]
@@ -25,11 +25,6 @@
  (fn [_ [_ new-match]]
    {:fx [[:dispatch [::apply-nav-route new-match]]]}))
 
-(def routes
-  ["/"
-   ["" view.landing/route-config]
-   ["not-found" view.not-found/route-config]])
-
 (defn on-navigate [new-match]
   (if new-match
     (rf/dispatch [::navigated new-match])
@@ -37,7 +32,7 @@
 
 (def router
   (reitit.fr/router
-   routes
+   client-routes/routes
    {:data {:coercion util.malli-coercion/custom-reitit-malli-coercer}}))
 
 (rf/reg-fx

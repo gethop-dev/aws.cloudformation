@@ -5,10 +5,8 @@
 {{=<< >>=}}
 (ns <<project.name>>.static.root
   (:require [integrant.core :as ig]
+            [<<project.name>>.shared.client-routes :as client-routes]
             [ring.util.response :as r]))
 
 (defmethod ig/init-key :<<project.name>>.static/root [_ _]
-  ["/"
-   {:get {:no-doc true
-          :handler (fn [_]
-                     (r/resource-response "<<project.files-name>>/index.html"))}}])
+  client-routes/routes)
